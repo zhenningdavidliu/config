@@ -1,0 +1,102 @@
+DATASET_TRAIN:
+    name: stripe_train
+    arguments:
+        grid_size: 32
+        line_width:  3
+        a: 0.01
+        flip_a_values: False
+
+DATASET_VAL:
+    name: stripe_test
+    arguments:
+        grid_size: 32
+        line_width:  3
+        a: 0.01
+        flip_a_values: False 
+        data_size: 1000
+        low_a_value: 0.009
+
+DATASET_TEST:
+    name: stripe_test
+    arguments:
+        grid_size: 32
+        line_width:  3
+        a: 0.01
+        flip_a_values: False 
+        data_size: 1000
+        low_a_value: 0.009
+
+# This is the network
+MODEL:
+    name: fc2
+    arguments:
+        act: relu
+        final_act: sigmoid 
+        bias_initializer: zeros 
+
+MODEL_METADATA:
+    precision: float64
+    save_final_model: no 
+    dest_model: model
+    # model_number_type: none, count, fixed, uuid
+    model_number_type: fixed
+    model_number_arguments:
+        model_id: 7
+        counter_path: ./
+    save_best_model: 
+        use_model_checkpoint: yes
+        arguments:
+            # the filepath will be modified with the right directory based on
+            # the dest_model and model_number values
+            filepath: best_model_demo.h5
+            monitor: val_acc
+            verbose: 1
+            save_best_only: False
+            mode: max
+            period: 1
+
+TRAIN:
+    batch_size: 60
+    shuffle: no
+    # Run validation on training and test set
+    validate_every: 50
+    optim:
+        type: adam
+        arguments: # Not in use for adam
+            param1: none
+    max_epoch: 1000
+    stopping_criteria:
+        # Vaild stopping criteria are 'epochs' and 'EarlyStopping'
+        # For more information about EarlyStopping options have a look at 
+        # https://machinelearningmastery.com/how-to-stop-training-deep-neural-networks-at-the-right-time-using-early-stopping/
+        type: epoch
+        arguments: 
+            monitor: val_acc
+            mode: auto
+            verbose: 1
+            patience: 10
+
+    loss: 
+        #type: mean_squared_error
+        type: binary_crossentropy
+        arguments: # Not in use for binary_crossentropy
+            param1: none
+    metrics:
+        metric1: accuracy
+
+COMPUTER_SETUP:
+    use_gpu: yes
+    # Compute node is the device number you would 
+    # like to run the computations on
+    # use `nvidia-smi` to view gpu-usage
+    # use `watch -n 2 nivida-smi` to monitor gpu-usage
+    compute_node: 1
+
+# Not in use yet
+INFORMATION_TRAIN:
+    save_every: 10
+    print_every: 10
+    plot:
+        font_size: 15
+        loss_train: no
+        accuracy_train: no

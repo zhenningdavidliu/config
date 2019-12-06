@@ -1,0 +1,5 @@
+#!/bin/bash
+
+rm model/7/weights_at_epoch*
+python3 Demo_start_training_proceedure.py
+python3 CheckVariation.py

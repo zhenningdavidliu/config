@@ -1,0 +1,27 @@
+MODEL:
+    filepath: model/7/keras_model_files.h5 
+    arguments:
+        grid_size: 32
+        output_shape: 1 
+        act: relu
+        final_act: sigmoid
+    compilation:
+        optim:
+            type: adam
+            arguments:
+                param1: None
+        loss:
+            type: binary_crossentropy
+            arguments:
+                param1: None
+        metric:
+            metric1: accuracy
+DATASET_TEST:
+    name: stripe_test
+    arguments:
+        grid_size: 32
+        line_width: 3
+        a: 0.01
+        flip_a_values: True
+        data_size: 5000
+        low_a_value: 0.009

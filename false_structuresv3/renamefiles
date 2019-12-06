@@ -1,0 +1,5 @@
+#!/bin/bash
+
+for f in *_tf2.py; do
+    mv -- "$f" "${f%_tf2.py}.py"
+done
