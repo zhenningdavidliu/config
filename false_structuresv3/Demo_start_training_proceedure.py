@@ -88,7 +88,7 @@ Use gpu: {}""".format(use_gpu))
     tf_config.gpu_options.allow_growth = True
     tf_config.log_device_placement = False
     sess = tf.compat.v1.Session(config=tf_config)
-    K.set_session(sess)
+    #K.v1.set_session(sess)
     
     # Load train and validatation data
     data_loader_train = data_selector(cgf['DATASET_TRAIN']['name'], cgf['DATASET_TRAIN']['arguments'])
@@ -211,10 +211,13 @@ Model dest: {}""".format(model_number_type, model_number, dest_model))
             callbacks = mc
             print('ERROR: Unknown callback type')
     '''
+    '''
+    # We save weights after each epoch
     if callbacks == None:
         callbacks =[]
     mycallback = MyCallback()
     callbacks.append(mycallback)
+    '''
 
     print('\nStart training the model\n')
     # Train model :)
