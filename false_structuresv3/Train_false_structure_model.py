@@ -56,6 +56,8 @@ Keras model
 """
     if model_name.lower() == "fc3":
         return mb.build_model_fc3(input_shape, output_shape, arguments)
+    elif model_name.lower() == "cnndrop":
+        return mb.build_model_cnndrop(input_shape, output_shape, arguments)
     elif model_name.lower() == "fc2":
         return mb.build_model_fc2(input_shape, output_shape, arguments)
     elif model_name.lower() == "fc2_cheat":
@@ -232,7 +234,7 @@ Model dest: {}""".format(model_number_type, model_number, dest_model))
     test_data, test_labels = data_loader_test.load_data()
     optimal = 0
 
-    while optimal == 0 :
+    while optimal < 0.9  :
         model = model_selector(model_name, input_shape, output_shape, model_arguments)
         model.compile(optimizer = optimizer,
                       loss = loss_type,
@@ -245,8 +247,7 @@ Model dest: {}""".format(model_number_type, model_number, dest_model))
                   callbacks = callbacks)
 
         score = model.evaluate(test_data, test_labels, verbose=0)
-        if score[1] == 0:
-            optimal = 1
+        optimal = score[1]
 
     if save_final_model:
         full_file_name = join(full_dest_model, 'keras_model_files.h5')

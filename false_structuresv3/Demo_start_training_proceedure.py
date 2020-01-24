@@ -6,7 +6,7 @@ in that file
 import yaml
 import shutil
 import uuid
-from keras import backend as K
+from tensorflow.keras import backend as K
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 from nn_tools import read_count
 import tensorflow as tf
@@ -53,6 +53,8 @@ Keras model
 """
     if model_name.lower() == "fc3":
         return mb.build_model_fc3(input_shape, output_shape, arguments)
+    elif model_name.lower() == "cnndrop":
+        return mb.build_model_cnndrop(input_shape, output_shape, arguments)
     elif model_name.lower() == "fc2":
         return mb.build_model_fc2(input_shape, output_shape, arguments)
     elif model_name.lower() == "fc2_cheat":

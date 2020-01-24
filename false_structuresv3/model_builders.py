@@ -1,8 +1,29 @@
 import tensorflow as tf
 import numpy as np
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Activation, Conv1D, Conv2D, Flatten, MaxPooling2D
+from tensorflow.keras.layers import Dense, Activation, Conv1D, Conv2D, Flatten, MaxPooling2D, Dropout
 from tensorflow.keras import regularizers
+
+def build_model_cnndrop(input_shape, output_shape, arguments):
+
+    act = arguments['act'];
+    final_act = arguments['final_act']
+     
+    model=Sequential()
+    model.add(Conv2D(filters=32, kernel_size=5, activation=act, input_shape=input_shape))
+    model.add(MaxPooling2D())
+    model.add(Dropout(0.4))
+    model.add(Conv2D(filters=64, kernel_size=5, activation=act))
+    model.add(MaxPooling2D())
+    model.add(Dropout(0.4))
+
+    model.add(Flatten())	
+    model.add(Dense(128, activation=act))
+    model.add(Dropout(0.4))
+
+    model.add(Dense(output_shape, activation=final_act)) 
+
+    return model
 
 def build_model_fc3(input_shape, output_shape, arguments):
     act = arguments['act'];
